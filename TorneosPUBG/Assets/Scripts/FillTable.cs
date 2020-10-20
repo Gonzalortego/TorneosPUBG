@@ -43,13 +43,13 @@ public class FillTable : MonoBehaviour
             switch(responseCode)
             {
                 case 0:
-                    ConnectionError();
+                    dialogInfo.ConnectionError();
                     break;
                 case 429:
-                    RequestLimitError();
+                    dialogInfo.RequestLimitError();
                     break;
                 default:
-                    ServerError();
+                    dialogInfo.ServerError();
                     break;
             }
         }
@@ -78,30 +78,6 @@ public class FillTable : MonoBehaviour
             element.GetComponentInChildren<Text>().text = json[i]["attributes"]["createdAt"].Value.Substring(0, 10);
         }
         dialogInfo.FinishLoading();
-    }
-
-    /// <summary>
-    /// Sends a command to display a connection error message.
-    /// </summary>
-    public void ConnectionError()
-    {
-        dialogInfo.ConnectionError();
-    }
-
-    /// <summary>
-    /// Send a command to display an error message when too many queries were made.
-    /// </summary>
-    public void RequestLimitError()
-    {
-        dialogInfo.RequestLimitError();
-    }
-
-    /// <summary>
-    /// Send a command to display an error message when a problem occurred on the server.
-    /// </summary>
-    public void ServerError()
-    {
-        dialogInfo.ServerError();
     }
 
 }

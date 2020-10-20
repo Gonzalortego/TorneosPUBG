@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogInfo : MonoBehaviour
@@ -15,7 +13,7 @@ public class DialogInfo : MonoBehaviour
     /// <summary>
     /// Enciende el Dialog.
     /// </summary>
-    public void startLoading()
+    public void StartLoading()
     {
         gameObject.SetActive(true);
     }
@@ -23,7 +21,7 @@ public class DialogInfo : MonoBehaviour
     /// <summary>
     /// Apaga el Dialog.
     /// </summary>
-    public void finishLoading()
+    public void FinishLoading()
     {
         gameObject.SetActive(false);
     }
@@ -31,7 +29,7 @@ public class DialogInfo : MonoBehaviour
     /// <summary>
     /// Muestra un mensaje de error cuando no se pudo establecer conexion.
     /// </summary>
-    public void connectionError()
+    public void ConnectionError()
     {
         txtDialog.text = "No se pudo establecer conexion con el servidor.";
     }
@@ -39,7 +37,7 @@ public class DialogInfo : MonoBehaviour
     /// <summary>
     /// Muestra un mensaje de error cuando se hicieron demasiadas consultas al servidor.
     /// </summary>
-    public void requestLimitError()
+    public void RequestLimitError()
     {
         txtDialog.text = "Solo puede hacer un maximo de 10 consultas por minuto.";
     }
@@ -47,7 +45,7 @@ public class DialogInfo : MonoBehaviour
     /// <summary>
     /// Muestra un mensaje de error cuando no se obtuvo la respuesta esperada del servidor.
     /// </summary>
-    public void serverError()
+    public void ServerError()
     {
         txtDialog.text = "Ocurrio un error en el servidor.";
     }

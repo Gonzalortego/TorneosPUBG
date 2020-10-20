@@ -1,6 +1,4 @@
-﻿using SimpleJSON;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,21 +9,59 @@ public class FillTable : MonoBehaviour
     [SerializeField] private GameObject prefabElement;
     [SerializeField] private List<Color> colors;
     [SerializeField] private DialogInfo dialogInfo;
-    
-    void Start()
+
+    private IService _service;
+
+    public void AskInformationToServer()
     {
-        dialogInfo.startLoading();
-        APIManager am = new APIManager(this);
-        StartCoroutine(am.askForData());
+        dialogInfo.StartLoading();
+        StartCoroutine(_service.AskForData(ShowData));
+    }
+
+    /// <summary>
+    /// Set the IService.
+    /// </summary>
+    /// <param name="service"></param>
+    public void SetService(IService service)
+    {
+        _service = service;
     }
 
     /// <summary>
     /// Completa la tabla con la informacion obtenida en el JSON.
     /// </summary>
     /// <param name="jsonText">JSON a cargar en la tabla.</param>
-    public void completeTable(string jsonText)
+    public void ShowData(string response)
     {
-        JSONNode json = JSON.Parse(jsonText)["data"];
+        int responseCode;
+        if (int.TryParse(response, out responseCode))
+        {
+            switch(responseCode)
+            {
+                case 0:
+                    ConnectionError();
+                    break;
+                case 429:
+                    RequestLimitError();
+                    break;
+                default:
+                    ServerError();
+                    break;
+            }
+        }
+        else
+        {
+            CompleteTable(response);
+        }
+    }
+
+    /// <summary>
+    /// Completa la tabla con la informacion obtenida en el JSON.
+    /// </summary>
+    /// <param name="jsonText">JSON a cargar en la tabla.</param>
+    public void CompleteTable(string jsonText)
+    {
+        SimpleJSON.JSONNode json = SimpleJSON.JSON.Parse(jsonText)["data"];
         GameObject element;
         for (int i = 0; i < json.Count; i++)
         {
@@ -37,31 +73,31 @@ public class FillTable : MonoBehaviour
             element.GetComponent<Image>().color = colors[i % colors.Count];
             element.GetComponentInChildren<Text>().text = json[i]["attributes"]["createdAt"].Value.Substring(0, 10);
         }
-        dialogInfo.finishLoading();
+        dialogInfo.FinishLoading();
     }
 
     /// <summary>
     /// Envia una orden de mostrar un mensaje de error de conexion.
     /// </summary>
-    public void connectionError()
+    public void ConnectionError()
     {
-        dialogInfo.connectionError();
+        dialogInfo.ConnectionError();
     }
 
     /// <summary>
     /// Envia una orden de mostrar un mensaje de error cuando se hicieron demasiadas consultas.
     /// </summary>
-    public void requestLimitError()
+    public void RequestLimitError()
     {
-        dialogInfo.requestLimitError();
+        dialogInfo.RequestLimitError();
     }
 
     /// <summary>
     /// Envia una orden de mostrar un mensaje de error cuando ocurrio un problema en el servidor.
     /// </summary>
-    public void serverError()
+    public void ServerError()
     {
-        dialogInfo.serverError();
+        dialogInfo.ServerError();
     }
 
 }

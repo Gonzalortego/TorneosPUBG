@@ -11,7 +11,7 @@ public class DialogInfo : MonoBehaviour
     }
 
     /// <summary>
-    /// Enciende el Dialog.
+    /// Turn on the Dialog.
     /// </summary>
     public void StartLoading()
     {
@@ -19,7 +19,7 @@ public class DialogInfo : MonoBehaviour
     }
 
     /// <summary>
-    /// Apaga el Dialog.
+    /// Turn off the Dialog.
     /// </summary>
     public void FinishLoading()
     {
@@ -27,27 +27,27 @@ public class DialogInfo : MonoBehaviour
     }
 
     /// <summary>
-    /// Muestra un mensaje de error cuando no se pudo establecer conexion.
+    /// Displays an error message when connection could not be established.
     /// </summary>
     public void ConnectionError()
     {
-        txtDialog.text = "No se pudo establecer conexion con el servidor.";
+        txtDialog.text = "Could not connect to the server.";
     }
 
     /// <summary>
-    /// Muestra un mensaje de error cuando se hicieron demasiadas consultas al servidor.
+    /// Displays an error message when too many queries were made to the server.
     /// </summary>
     public void RequestLimitError()
     {
-        txtDialog.text = "Solo puede hacer un maximo de 10 consultas por minuto.";
+        txtDialog.text = "You can only make a maximum of 10 queries per minute.";
     }
 
     /// <summary>
-    /// Muestra un mensaje de error cuando no se obtuvo la respuesta esperada del servidor.
+    /// Displays an error message when the expected response was not obtained from the server.
     /// </summary>
     public void ServerError()
     {
-        txtDialog.text = "Ocurrio un error en el servidor.";
+        txtDialog.text = "An error occurred on the server.";
     }
 
 }

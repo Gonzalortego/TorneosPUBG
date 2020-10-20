@@ -12,10 +12,13 @@ public class FillTable : MonoBehaviour
 
     private IService _service;
 
+    /// <summary>
+    /// Make a request to the service that has the information
+    /// </summary>
     public void AskInformationToServer()
     {
         dialogInfo.StartLoading();
-        StartCoroutine(_service.AskForData(ShowData));
+        StartCoroutine(_service.AskForData());
     }
 
     /// <summary>
@@ -25,10 +28,11 @@ public class FillTable : MonoBehaviour
     public void SetService(IService service)
     {
         _service = service;
+        _service.dataReceived += ShowData;
     }
 
     /// <summary>
-    /// Completa la tabla con la informacion obtenida en el JSON.
+    /// Shows something in the graphical interface according to what is obtained from the server.
     /// </summary>
     /// <param name="jsonText">JSON a cargar en la tabla.</param>
     public void ShowData(string response)
@@ -56,9 +60,9 @@ public class FillTable : MonoBehaviour
     }
 
     /// <summary>
-    /// Completa la tabla con la informacion obtenida en el JSON.
+    /// Complete the table with the information obtained in the JSON.
     /// </summary>
-    /// <param name="jsonText">JSON a cargar en la tabla.</param>
+    /// <param name="jsonText">JSON to load in the table.</param>
     public void CompleteTable(string jsonText)
     {
         SimpleJSON.JSONNode json = SimpleJSON.JSON.Parse(jsonText)["data"];
@@ -77,7 +81,7 @@ public class FillTable : MonoBehaviour
     }
 
     /// <summary>
-    /// Envia una orden de mostrar un mensaje de error de conexion.
+    /// Sends a command to display a connection error message.
     /// </summary>
     public void ConnectionError()
     {
@@ -85,7 +89,7 @@ public class FillTable : MonoBehaviour
     }
 
     /// <summary>
-    /// Envia una orden de mostrar un mensaje de error cuando se hicieron demasiadas consultas.
+    /// Send a command to display an error message when too many queries were made.
     /// </summary>
     public void RequestLimitError()
     {
@@ -93,7 +97,7 @@ public class FillTable : MonoBehaviour
     }
 
     /// <summary>
-    /// Envia una orden de mostrar un mensaje de error cuando ocurrio un problema en el servidor.
+    /// Send a command to display an error message when a problem occurred on the server.
     /// </summary>
     public void ServerError()
     {
